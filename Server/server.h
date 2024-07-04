@@ -3,20 +3,27 @@
 
 #include <boost/asio.hpp>
 using boost::asio::ip::tcp;
+using p_socket = std::shared_ptr<tcp::socket>;
 
 class Server
 {
 private:
     boost::asio::io_context _io_context;
-    tcp::socket _socket;
+    std::shared_ptr<tcp::socket> _socket;
     tcp::acceptor _acceptor;
-    std::unordered_map<std::string,tcp::socket> _connections;
-    boost::asio::streambuf _streamBuf {65536};
+    std::unordered_map<std::string, p_socket> _connections;
+    std::string _username;
+    short _headerBuffer;
+    std::string _message;
+    //boost::asio::streambuf _messageBuffer {65536};
 public:
     Server(tcp ip_type = tcp::v4(), int port=44444);
     void start();
 private:
-    void handle_accept(tcp::socket& socket, const boost::system::error_code& error);
+    void wait_for_connections();
+    void handle_accept(p_socket& socket, const boost::system::error_code& error);
+    void async_read(p_socket& socket);
+    void send_new_message();
 };
 
 #endif // SERVER_H
