@@ -15,7 +15,6 @@ private:
     std::string _username;
     short _headerBuffer;
     std::string _message;
-    //boost::asio::streambuf _messageBuffer {65536};
 public:
     Server(tcp ip_type = tcp::v4(), int port=44444);
     void start();
