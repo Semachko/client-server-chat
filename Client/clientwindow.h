@@ -2,6 +2,7 @@
 #define CLIENTWINDOW_H
 
 #include <QMainWindow>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -9,7 +10,7 @@ class ClientWindow;
 }
 QT_END_NAMESPACE
 
-class ClientWindow : public QMainWindow
+class ClientWindow : public QWidget
 {
     Q_OBJECT
 

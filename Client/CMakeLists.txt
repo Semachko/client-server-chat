@@ -6,7 +6,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
@@ -23,18 +23,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Client
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        connectionwindow.h connectionwindow.cpp connectionwindow.ui
+
+
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Client APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
         add_library(Client SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(Client
             ${PROJECT_SOURCES}
@@ -44,9 +41,20 @@ endif()
 
 target_link_libraries(Client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+
+# set(Boost_USE_STATIC_LIBS ON)
+# set(Boost_USE_MULTITHREADED ON)
+# set(Boost_USE_STATIC_RUNTIME OFF)
+
+# set(BOOST_ROOT "C:/libraries/boost_1_85_0")
+# set(BOOST_INCLUDEDIR "C:/libraries/boost_1_85_0")
+# set(BOOST_LIBRARYDIR "C:/libraries/boost_1_85_0/lib64-msvc-14.3")
+
+find_package(Boost 1.85.0 COMPONENTS thread chrono REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+target_link_libraries(Client PRIVATE ${Boost_LIBRARIES})
+
+
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Client)
 endif()
