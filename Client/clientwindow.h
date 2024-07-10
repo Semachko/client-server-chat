@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include <boost/asio.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,10 +16,13 @@ class ClientWindow : public QWidget
     Q_OBJECT
 
 public:
-    ClientWindow(QWidget *parent = nullptr);
+    ClientWindow(boost::asio::ip::tcp::socket&& socket, QWidget *parent = nullptr);
     ~ClientWindow();
 
+    void start();
 private:
     Ui::ClientWindow *ui;
+    boost::asio::ip::tcp::socket _socket;
+    std::string _username;
 };
 #endif // CLIENTWINDOW_H

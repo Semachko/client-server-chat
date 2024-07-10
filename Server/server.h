@@ -1,7 +1,10 @@
 #ifndef SERVER_H
 #define SERVER_H
-
+#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 #include <boost/asio.hpp>
+
 using boost::asio::ip::tcp;
 using p_socket = std::shared_ptr<tcp::socket>;
 
@@ -9,19 +12,19 @@ class Server
 {
 private:
     boost::asio::io_context _io_context;
-    std::shared_ptr<tcp::socket> _socket;
-    tcp::acceptor _acceptor;
-    std::unordered_map<std::string, p_socket> _connections;
+    tcp::acceptor _acceptor;;
     std::string _username;
     short _headerBuffer;
+    std::unordered_set<p_socket> _unhandled_sockets;
+    std::unordered_map<std::string,p_socket> _connections;
     std::string _message;
 public:
-    Server(tcp ip_type = tcp::v4(), int port=44444);
+    Server(tcp ip_type = tcp::v4(), int port=44445);
     void start();
 private:
     void wait_for_connections();
-    void handle_accept(p_socket& socket, const boost::system::error_code& error);
-    void async_read(p_socket& socket);
+    void handle_accept(const p_socket& socket);
+    void async_read(const std::unordered_map<std::string,p_socket>::iterator& user);
     void send_new_message();
 };
 
