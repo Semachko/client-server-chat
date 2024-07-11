@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.14)
 project(Server LANGUAGES CXX)
 
 add_executable(Server main.cpp
-    server.h server.cpp)
+    server.h server.cpp
+    messagehistory.h messagehistory.cpp)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)

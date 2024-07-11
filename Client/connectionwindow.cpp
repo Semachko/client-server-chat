@@ -47,10 +47,9 @@ void ConnectionWindow::on_button_connect_clicked()
                     if(success!=0)
                     {
                         window = std::make_unique<ClientWindow>(std::move(_socket));
-                        window->start();
                         window->show();
-                        hide();
-                        //ui->statusbar->showMessage("Connected.", 5000);
+                        window->start();
+                        hide();                        
                     }else
                         ui->statusbar->showMessage("This nickname is already taken.", 5000);
                 }else

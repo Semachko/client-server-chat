@@ -40,7 +40,7 @@ void Server::handle_accept(const p_socket& socket)
             socket->write_some(boost::asio::buffer(&username_available,1),er);
 
             if(username_available) {
-                async_read(result.first);
+                start_reading(result.first);
                 _unhandled_sockets.erase(socket);
                 std::cout<<"User "<<result.first->first<<" connected.\n";
             }else{
@@ -52,16 +52,16 @@ void Server::handle_accept(const p_socket& socket)
     });
 }
 
-void Server::async_read(const std::unordered_map<std::string,p_socket>::iterator& user)
+void Server::start_reading(const std::unordered_map<std::string,p_socket>::iterator& user)
 {   // Reading size of message.
-    user->second->async_read_some(boost::asio::buffer(&_headerBuffer, sizeof(_headerBuffer)),
+    user->second->async_read_some(boost::asio::buffer(&_message.size, sizeof(_message.size)),
                             [this, user](const boost::system::error_code& error, std::size_t bytes_transferred){
         if (!error){ // Reading message.
-            user->second->async_read_some(boost::asio::buffer(_message, _headerBuffer),
+            user->second->async_read_some(boost::asio::buffer(_message.data, _message.size),
                                     [this, user](const boost::system::error_code& error, std::size_t bytes_transferred){
                 if(!error){
                     send_new_message();
-                    async_read(user);
+                    start_reading(user);
                 }else
                     std::cout<<error.message()+ ": reading message error.\n";
             });
@@ -74,14 +74,12 @@ void Server::async_read(const std::unordered_map<std::string,p_socket>::iterator
 
 void Server::send_new_message()
 {
-    short headerLength = sizeof(_message);
-
     for(auto& conns : _connections)
     {
-        conns.second->async_write_some(boost::asio::buffer(&headerLength, sizeof(headerLength)),
+        conns.second->async_write_some(boost::asio::buffer(&_message.size, sizeof(_message.size)),
                                  [this, &conns](boost::system::error_code ec, std::size_t){
            if(!ec){
-               conns.second->write_some(boost::asio::buffer(_message));
+               conns.second->write_some(boost::asio::buffer(_message.data));
            } else
                std::cout<<ec.message() + ": send_message error.\n";
         });

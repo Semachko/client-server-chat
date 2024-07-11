@@ -10,21 +10,25 @@ using p_socket = std::shared_ptr<tcp::socket>;
 
 class Server
 {
+    struct Message {
+        short size;
+        std::string data;
+    };
+
 private:
     boost::asio::io_context _io_context;
-    tcp::acceptor _acceptor;;
+    tcp::acceptor _acceptor;
     std::string _username;
-    short _headerBuffer;
     std::unordered_set<p_socket> _unhandled_sockets;
     std::unordered_map<std::string,p_socket> _connections;
-    std::string _message;
+    Message _message;
 public:
     Server(tcp ip_type = tcp::v4(), int port=44445);
     void start();
 private:
     void wait_for_connections();
     void handle_accept(const p_socket& socket);
-    void async_read(const std::unordered_map<std::string,p_socket>::iterator& user);
+    void start_reading(const std::unordered_map<std::string,p_socket>::iterator& user);
     void send_new_message();
 };
 

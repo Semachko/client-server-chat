@@ -13,10 +13,14 @@ ClientWindow::ClientWindow(boost::asio::ip::tcp::socket&& socket, QWidget *paren
 ClientWindow::~ClientWindow()
 {
     delete ui;
-    _socket.close();
 }
 
 void ClientWindow::start()
 {
 
+}
+
+void ClientWindow::load_message_history()
+{
+    _socket.async_read_some()
 }

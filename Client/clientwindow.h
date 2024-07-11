@@ -12,17 +12,19 @@ class ClientWindow;
 QT_END_NAMESPACE
 
 class ClientWindow : public QWidget
-{
-    Q_OBJECT
+{Q_OBJECT
+
+private:
+    Ui::ClientWindow *ui;
+    boost::asio::ip::tcp::socket _socket;
 
 public:
     ClientWindow(boost::asio::ip::tcp::socket&& socket, QWidget *parent = nullptr);
     ~ClientWindow();
-
     void start();
+
 private:
-    Ui::ClientWindow *ui;
-    boost::asio::ip::tcp::socket _socket;
-    std::string _username;
+    void load_message_history();
+
 };
 #endif // CLIENTWINDOW_H
