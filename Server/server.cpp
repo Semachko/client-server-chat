@@ -2,11 +2,13 @@
 
 using boost::asio::ip::tcp;
 
-Server::Server(tcp ip_type, int port)
+Server::Server(int message_history_lenght, tcp ip_type, int port)
     :
     _io_context(),
-    _acceptor(_io_context, tcp::endpoint(ip_type,port))
+    _acceptor(_io_context, tcp::endpoint(ip_type,port)),
+    _history_message(message_history_lenght)
 {
+
 }
 
 void Server::start()
@@ -40,11 +42,13 @@ void Server::handle_accept(const p_socket& socket)
             socket->write_some(boost::asio::buffer(&username_available,1),er);
 
             if(username_available) {
+                send_message_history(result.first->second);
                 start_reading(result.first);
                 _unhandled_sockets.erase(socket);
                 std::cout<<"User "<<result.first->first<<" connected.\n";
             }else{
                 std::cout<<"The specified name is already taken.\n";
+                _connections.erase(result.first);
                 _unhandled_sockets.erase(socket);
             }
         }else
@@ -60,6 +64,8 @@ void Server::start_reading(const std::unordered_map<std::string,p_socket>::itera
             user->second->async_read_some(boost::asio::buffer(_message.data, _message.size),
                                     [this, user](const boost::system::error_code& error, std::size_t bytes_transferred){
                 if(!error){
+                    std::string message = user->first + ": " + _message.data;
+                    _history_message.push_message(message);
                     send_new_message();
                     start_reading(user);
                 }else
@@ -70,6 +76,23 @@ void Server::start_reading(const std::unordered_map<std::string,p_socket>::itera
             _connections.erase(user);
         }
     });
+}
+
+void Server::send_message_history(const p_socket &socket)
+{
+    std::shared_ptr<std::string> history = std::make_shared<std::string>();
+    std::shared_ptr<std::size_t> message_size = std::make_shared<std::size_t>();
+
+    socket->async_write_some(boost::asio::buffer(&message_size, sizeof(message_size)),
+       [this, &socket, history, message_size](boost::system::error_code ec, std::size_t){
+            if(!ec && history.get()->size()!=0){
+                socket->write_some(boost::asio::buffer(history.get(),*message_size.get()),ec);
+                if(ec)
+                    std::cout<<ec.message() + ": send message history error.\n";
+            }
+            else
+                std::cout<<ec.message() + ": send message history size error.\n";
+       });
 }
 
 void Server::send_new_message()

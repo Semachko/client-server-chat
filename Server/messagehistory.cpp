@@ -4,7 +4,7 @@ MessageHistory::MessageHistory(int size)
     : _history_size(size)
 {}
 
-void MessageHistory::push_message(std::string&& message)
+void MessageHistory::push_message(std::string& message)
 {
     if(_history.size() >= _history_size)
         _history.pop_front();

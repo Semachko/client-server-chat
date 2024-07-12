@@ -6,7 +6,7 @@ class MessageHistory
 {
 public:
     MessageHistory(int size);
-    void push_message(std::string&& message);
+    void push_message(std::string& message);
     std::string to_string();
 private:
     std::deque<std::string> _history;
