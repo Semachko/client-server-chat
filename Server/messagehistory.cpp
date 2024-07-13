@@ -1,21 +1,22 @@
 #include "messagehistory.h"
 
 MessageHistory::MessageHistory(int size)
-    : _history_size(size)
+    : history_size(size)
 {}
 
 void MessageHistory::push_message(std::string& message)
 {
-    if(_history.size() >= _history_size)
-        _history.pop_front();
-    _history.push_back(std::move(message));
+    if(history.size() >= history_size)
+        history.pop_front();
+    history.push_back(std::move(message));
 }
 
 std::string MessageHistory::to_string()
 {
     std::string stream;
-    for(const auto& str : _history) {
+    for(const auto& str : history) {
         stream += str + '\n';
     }
     return stream;
 }
+

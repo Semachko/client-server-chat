@@ -22,7 +22,6 @@ private:
     std::string _username;
     std::unordered_set<p_socket> _unhandled_sockets;
     std::unordered_map<std::string,p_socket> _connections;
-    Message _message;
     MessageHistory _history_message;
 public:
     Server(int message_history_lenght = 200, tcp ip_type = tcp::v4(), int port=44445);
@@ -32,7 +31,7 @@ private:
     void handle_accept(const p_socket& socket);
     void start_reading(const std::unordered_map<std::string,p_socket>::iterator& user);
     void send_message_history(const p_socket& socket);
-    void send_new_message();
+    void send_new_message(const std::shared_ptr<Message>&& message);
 };
 
 #endif // SERVER_H

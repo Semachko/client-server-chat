@@ -46,7 +46,7 @@ void ConnectionWindow::on_button_connect_clicked()
                 {
                     if(success!=0)
                     {
-                        window = std::make_unique<ClientWindow>(std::move(_socket));
+                        window = std::make_unique<ClientWindow>(_io_context,std::move(_socket));
                         window->show();
                         window->start();
                         hide();                        
