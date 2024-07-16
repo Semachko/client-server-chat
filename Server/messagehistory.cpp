@@ -8,7 +8,7 @@ void MessageHistory::push_message(std::string& message)
 {
     if(history.size() >= history_size)
         history.pop_front();
-    history.push_back(std::move(message));
+    history.push_back(message);
 }
 
 std::string MessageHistory::to_string()

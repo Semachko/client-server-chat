@@ -18,6 +18,7 @@ private:
     Ui::ClientWindow *ui;
     boost::asio::ip::tcp::socket _socket;
     boost::asio::io_context& _io_context;
+    std::string _message;
 
 public:
     ClientWindow(boost::asio::io_context& io_context, boost::asio::ip::tcp::socket&& socket, QWidget *parent = nullptr);
@@ -29,6 +30,7 @@ private:
     void listen_messages();
 
 signals:
+    void clearPlainTextEdit();
     void newChatMessage(const std::string& message);
     void settingStatusBarMessage(const std::string& message);
 

@@ -31,7 +31,7 @@ private:
     void handle_accept(const p_socket& socket);
     void start_reading(const std::unordered_map<std::string,p_socket>::iterator& user);
     void send_message_history(const p_socket& socket);
-    void send_new_message(const std::shared_ptr<Message>&& message);
+    void send_new_message(const std::string user_message);
 };
 
 #endif // SERVER_H
