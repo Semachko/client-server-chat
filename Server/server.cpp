@@ -60,7 +60,7 @@ void Server::send_message_history(const p_socket &socket)
 {
     auto history = std::make_shared<std::string>(_history_message.to_string());
     if(history->size() < 2)
-        *history="\n";
+        *history="\0";
     auto message_size = std::make_shared<std::size_t>(history->size());
     std::cout<<"Size of message = " << *message_size << '\n';
     socket->async_write_some(boost::asio::buffer(message_size.get(), sizeof(*message_size)),

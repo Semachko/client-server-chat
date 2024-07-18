@@ -1,5 +1,5 @@
 #include "clientwindow.h"
-#include "./ui_clientwindow.h"
+#include "ui_clientwindow.h"
 #include "boost/thread.hpp"
 #include <QDebug>
 ClientWindow::ClientWindow(boost::asio::io_context& io_context, boost::asio::ip::tcp::socket&& socket, QWidget *parent)
