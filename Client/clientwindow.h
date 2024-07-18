@@ -22,7 +22,7 @@ private:
 
 public:
     ClientWindow(boost::asio::io_context& io_context, boost::asio::ip::tcp::socket&& socket, QWidget *parent = nullptr);
-    ~ClientWindow();
+    ~ClientWindow(){ delete ui; };
     void start();
 
 private:

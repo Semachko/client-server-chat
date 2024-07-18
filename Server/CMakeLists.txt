@@ -23,11 +23,6 @@ set(BOOST_ROOT "C:/libraries/boost_1_85_0")
 set(BOOST_INCLUDEDIR "C:/libraries/boost_1_85_0")
 set(BOOST_LIBRARYDIR "C:/libraries/boost_1_85_0/lib64-msvc-14.3")
 
-
-#find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
-#find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-#target_link_libraries(Server Qt${QT_VERSION_MAJOR}::Core)
-
 find_package(Boost 1.85.0 COMPONENTS thread chrono REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 target_link_libraries(Server ${Boost_LIBRARIES})

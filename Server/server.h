@@ -1,6 +1,5 @@
 #ifndef SERVER_H
 #define SERVER_H
-#include <iostream>
 #include <unordered_map>
 #include <unordered_set>
 #include <boost/asio.hpp>

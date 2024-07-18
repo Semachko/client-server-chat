@@ -40,7 +40,7 @@ void ConnectionWindow::on_button_connect_clicked()
             _socket.write_some(boost::asio::buffer(nickname),ec);
             if(!ec)
             {
-                bool success;
+                char success;
                 _socket.read_some(boost::asio::buffer(&success,1),ec);
                 if(!ec)
                 {

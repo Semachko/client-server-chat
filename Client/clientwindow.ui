@@ -31,7 +31,7 @@
      <x>0</x>
      <y>0</y>
      <width>601</width>
-     <height>431</height>
+     <height>421</height>
     </rect>
    </property>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -133,10 +133,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QStatusBar" name="statusbar">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>3</width>
-     <height>22</height>
+     <x>10</x>
+     <y>421</y>
+     <width>581</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
