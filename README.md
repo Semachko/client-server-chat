@@ -23,7 +23,7 @@ ____
 
 # **Connecting to the server**
 
-![image](https://github.com/user-attachments/assets/32fffed3-244d-4ee2-9943-37cc0896dae2)
+![image](https://github.com/user-attachments/assets/80e7662a-efc1-4d19-a503-110f16767f13)
 
 ### *You need to enter the IP/port and unique username to connect. By default the server port is 44445*
 
@@ -39,5 +39,5 @@ ____
 
 # **Details:**
 
-- Connections and data exchange are implemented through the *TCP protocol*. I/O operations are processed through asynchronous operations using **io_context** from the *Boost.Asio* library.
+- Connections and data exchange are implemented through the **TCP protocol**. I/O operations are processed through asynchronous operations using **io_context** from the *Boost.Asio* library.
 - To compile the project, the *Boost.Asio* library is required.
