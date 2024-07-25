@@ -11,6 +11,9 @@ ____
 - C++, Qt Creator, Boost.Asio
 
 ____
+
+# This includes: 
+
 # **Starting the server**
 
 ![image](https://github.com/user-attachments/assets/3ec6a2d0-9ceb-41b1-88b1-b24af024222d)
@@ -19,11 +22,9 @@ ____
 
 ____
 
-# This includes: 
-
 # **Connecting to the server**
 
-![image](https://github.com/user-attachments/assets/32fffed3-244d-4ee2-9943-37cc0896dae2)
+![image](https://github.com/user-attachments/assets/63a6203c-0af9-4ee1-95dd-069bb891d3e4)
 
 ### *You need to enter the IP/port and unique username to connect. By default the server port is 44445*
 
