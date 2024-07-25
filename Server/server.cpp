@@ -47,8 +47,9 @@ void Server::handle_accept(const p_socket& socket)
                         std::cout<<"User "<<result.first->first<<" connected.\n";
                     }else{
                         std::cout<<"The specified name is already taken.\n";
-                        _connections.erase(result.first);
                         _unhandled_sockets.erase(socket);
+                        int a;
+                        a=10;
                     }
                 });
         }else
@@ -62,20 +63,14 @@ void Server::send_message_history(const p_socket &socket)
     if(history->size() < 2)
         *history="\0";
     auto message_size = std::make_shared<std::size_t>(history->size());
-    std::cout<<"Size of message = " << *message_size << '\n';
     socket->async_write_some(boost::asio::buffer(message_size.get(), sizeof(*message_size)),
             [&socket, history, message_size](boost::system::error_code ec, std::size_t)
             {
                 if(!ec){
-                    std::cout<<"Size of size message = " << *message_size << '\n';
-                    std::cout<<"Message = " << *history << '\n';
-                    std::cout<<"Size of real message = " << history->size() << '\n';
                     socket->async_write_some(boost::asio::buffer(history->data(),*message_size),
                         [history](boost::system::error_code ec, std::size_t)
                         {
-                            if(!ec)
-                                std::cout<<"Sended message history: " + *history;
-                            else
+                            if(ec)
                                 std::cout<<ec.message() + ": send message history error.\n";
                         });
                 }else
