@@ -1,6 +1,6 @@
 #include "clientwindow.h"
 #include "ui_clientwindow.h"
-#include "boost/thread.hpp"
+#include <thread>
 #include <QDebug>
 ClientWindow::ClientWindow(boost::asio::io_context& io_context, boost::asio::ip::tcp::socket&& socket, QWidget *parent)
     : QWidget(parent)
@@ -20,7 +20,7 @@ ClientWindow::ClientWindow(boost::asio::io_context& io_context, boost::asio::ip:
 void ClientWindow::start()
 {
     load_message_history();
-    boost::thread th([this](){
+    std::thread th([this](){
          _io_context.run();
     });
     th.detach();
@@ -33,13 +33,11 @@ void ClientWindow::load_message_history()
     _socket.async_read_some(boost::asio::buffer(message_size.get(),sizeof(*message_size)),
         [this,message_size,history_message](const boost::system::error_code& error, std::size_t)
         {
-            qDebug()<<"Resizing history message to: " << *message_size << '\n';
             history_message->resize(*message_size);
             if(!error)
                 _socket.async_read_some(boost::asio::buffer(history_message->data(),*message_size),
                         [this,history_message](const boost::system::error_code& error, std::size_t)
                         {
-                            qDebug()<<"history message is: " << *history_message << '\n';
                             if(!error)
                                 emit newChatMessage(*history_message);
                             else
