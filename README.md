@@ -11,9 +11,6 @@ ____
 - C++, Qt Creator, Boost.Asio
 
 ____
-
-# This includes: 
-
 # **Starting the server**
 
 ![image](https://github.com/user-attachments/assets/3ec6a2d0-9ceb-41b1-88b1-b24af024222d)
@@ -22,9 +19,11 @@ ____
 
 ____
 
+# This includes: 
+
 # **Connecting to the server**
 
-![image](https://github.com/user-attachments/assets/63a6203c-0af9-4ee1-95dd-069bb891d3e4)
+![image](https://github.com/user-attachments/assets/32fffed3-244d-4ee2-9943-37cc0896dae2)
 
 ### *You need to enter the IP/port and unique username to connect. By default the server port is 44445*
 
@@ -39,5 +38,6 @@ ____
 ____
 
 # **Details:**
-- Everything is developed through code, without using a designer, since the application is very dynamic.
-- All data about tags and notes is stored locally in the application folder in json files.
+
+- Connections and data exchange are implemented through the *TCP protocol*. I/O operations are processed through asynchronous operations using **io_context** from the *Boost.Asio* library.
+- To compile the project, the *Boost.Asio* library is required.
